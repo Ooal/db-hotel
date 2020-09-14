@@ -1,0 +1,105 @@
+SELECT * 
+    FROM ospiti
+    WHERE document_type LIKE 'CI'; 
+
+
+
+SELECT * 
+    FROM ospiti
+    WHERE YEAR(date_of_birth) > 1998;
+
+
+
+SELECT * 
+    FROM ospiti 
+    WHERE 2020 - YEAR(date_of_birth) > 20;
+
+
+
+SELECT * 
+    FROM ospiti 
+    WHERE name LIKE 'D%';
+
+
+
+SELECT SUM(price) 
+    FROM pagamenti 
+    WHERE status LIKE 'accepted';
+
+
+
+SELECT MAX(price) 
+    FROM pagamenti 
+    WHERE status LIKE 'accepted';
+
+
+
+SELECT * 
+    FROM ospiti 
+    WHERE 
+    (document_type LIKE 'Driver License') AND (YEAR(date_of_birth) = 1975);
+
+
+
+SELECT SUM(beds) 
+
+
+GROUP BY
+
+
+SELECT YEAR(date_of_birth) AS anno,
+        COUNT(*) AS n
+            FROM ospiti 
+                GROUP BY YEAR(date_of_birth);
+
+
+SELECT status, 
+        SUM(price) AS sum 
+            FROM pagamenti 
+                GROUP BY status;
+
+
+SELECT stanza_id,
+        COUNT(*) AS volte_prenotata
+            FROM prenotazioni
+                GROUP BY stanza_id;
+
+
+SELECT HOUR(created_at) AS ore,
+        COUNT(*) AS n 
+            FROM prenotazioni 
+                GROUP BY HOUR(created_at);
+
+
+SELECT ospiti.name, ospiti.lastname, COUNT(ospiti.name) AS N
+    FROM prenotazioni_has_ospiti 
+        JOIN ospiti ON prenotazioni_has_ospiti.ospite_id = ospiti.id 
+            GROUP BY ospite_id 
+                HAVING COUNT(ospiti.name) > 2;
+
+
+SELECT * 
+    FROM prenotazioni_has_ospiti 
+        JOIN ospiti ON prenotazioni_has_ospiti.ospite_id = ospiti.id;
+
+
+SELECT status, price, prenotazioni.created_at, name, lastname, address 
+    FROM pagamenti 
+        JOIN prenotazioni ON pagamenti.prenotazione_id = prenotazioni.id 
+        JOIN paganti ON pagamenti.pagante_id = paganti.id 
+            WHERE YEAR(prenotazioni.created_at) LIKE 2018 
+            AND MONTH(prenotazioni.created_at) LIKE 5;
+
+
+SELECT SUM(pagamenti.price) AS somma 
+    FROM pagamenti
+        JOIN prenotazioni ON pagamenti.prenotazione_id = prenotazioni.id
+        JOIN stanze ON prenotazioni.stanza_id = stanze.id
+            WHERE stanze.floor LIKE 1;
+
+
+SELECT * 
+    FROM prenotazioni 
+        RIGHT JOIN stanze ON prenotazioni.stanza_id = stanze.id 
+
+
